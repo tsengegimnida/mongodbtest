@@ -20,6 +20,34 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get("/user/list", async (req, res) => {
+  const users = await User.find({});
+  res.send(users);
+});
+app.get("/profile/:id", async (req, res) => {
+  const id = req.params.id;
+  const user = await User.findById(id);
+  res.send(user);
+});
+app.delete("/profile/:id", async (req, res) => {
+  const id = req.params.id;
+  await User.findByIdAndDelete(id);
+  res.send("deleted");
+});
+app.patch("/profile/:id", async (req, res) => {
+  const id = req.params.id;
+  const { name, email, phone, gender, location } = req.body;
+
+  console.log(id);
+  try {
+    const user = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+  res.send("Updated");
+});
 app.post("/profile", (req, res) => {
   const { name, email, phone, gender, location } = req.body;
 
