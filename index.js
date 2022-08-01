@@ -1,11 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/User");
+const dotenv = require("dotenv");
+const userRouter = require("./routes/userRoute");
+
+dotenv.config(".env");
 
 const app = express();
 const port = 3000;
-const MONGODB_URL =
-  "mongodb+srv://gansukh:UgfKbthWjNdxx8MO@cluster0.6xeqn30.mongodb.net/leap3?retryWrites=true&w=majority";
+const MONGODB_URL = process.env.MONGODB_URL;
 
 mongoose.connect(MONGODB_URL);
 
@@ -16,14 +19,12 @@ connection.once("open", () => {
 });
 
 app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
 
-app.get("/user/list", async (req, res) => {
-  const users = await User.find({});
-  res.send(users);
-});
+app.use(userRouter);
+
 app.get("/profile/:id", async (req, res) => {
   const id = req.params.id;
   const user = await User.findById(id);
@@ -49,9 +50,11 @@ app.patch("/profile/:id", async (req, res) => {
   res.send("Updated");
 });
 app.post("/profile", (req, res) => {
-  const { name, email, phone, gender, location } = req.body;
+  const { username, password, name, email, phone, gender, location } = req.body;
 
   const user = new User({
+    username,
+    password,
     name,
     email,
     phone,
