@@ -1,12 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload");
+const path = require("path");
 const User = require("./models/User");
 const dotenv = require("dotenv");
 const userRouter = require("./routes/userRoute");
+const postRouter = require("./routes/postRoute");
 
 dotenv.config(".env");
 
 const app = express();
+app.use(fileUpload());
+app.use("/uploads/", express.static(path.join(__dirname, "uploads")));
+
 const port = 3000;
 const MONGODB_URL = process.env.MONGODB_URL;
 
@@ -24,6 +30,7 @@ app.use(express.json());
 // });
 
 app.use(userRouter);
+app.use(postRouter);
 
 app.get("/profile/:id", async (req, res) => {
   const id = req.params.id;

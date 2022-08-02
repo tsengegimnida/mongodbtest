@@ -2,18 +2,8 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 const getUserList = async (req, res) => {
-  console.log(req.headers);
-  const token = req.headers.authorization;
-
-  const result = jwt.verify(token, "secret", function (err, decoded) {
-    if (err) return false;
-    return decoded;
-  });
-  if (!result) {
-    res.send("Invalid");
-  }
-
   const users = await User.find({});
+  //console.log(res.locals.id);
   res.send(users);
 };
 
@@ -27,7 +17,10 @@ const loginUser = async (req, res) => {
   }).lean();
 
   if (user) {
-    const token = jwt.sign(user, process.env.JWT_SECRET, {
+    const user_data = {
+      _id: user._id,
+    };
+    const token = jwt.sign(user_data, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     console.log(token);
