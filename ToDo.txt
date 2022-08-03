@@ -1,0 +1,35 @@
+Follow/Unfollow
+Method: post
+URL: /follow, /unfollow
+Body: 
+{
+    "toFollow": "< user id> "
+}
+// or
+
+{
+    "toUnfollow": "< user id> "
+}
+// Create Follow record on follow collection or delete
+
+Create post
+Required: Photo upload
+
+Method: post
+URL: /createPost
+Body: 
+{
+    "description": "descripton",
+    "photoUrl":
+    "absoluteUrl": 
+}
+// Add a record to Post collection
+
+Write commment to post
+
+URL: /addComment
+Body: 
+{
+    "postId": "< post id>",
+    "description": " < comment text> "
+}
