@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Follow = require("../models/Follow");
 const jwt = require("jsonwebtoken");
 
 const getUserList = async (req, res) => {
@@ -33,4 +34,21 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { getUserList, loginUser };
+const follow = async (req, res) => {
+  const follower = res.locals.userId;
+  console.log(res.locals);
+  const following = req.body.following;
+  const follows = await Follow.create({ follower, following });
+  res.send(follows);
+};
+
+const following = async (req, res) => {
+  const follower = res.locals.userId;
+  const follows = await Follow.find({ follower })
+    .populate("following")
+    .populate("follower")
+    .lean();
+  res.send(follows);
+};
+
+module.exports = { getUserList, loginUser, follow, following };

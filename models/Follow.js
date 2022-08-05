@@ -5,11 +5,11 @@ const followSchema = new Schema(
   {
     follower: {
       type: mongoose.Schema.ObjectId,
-      ref: "User",
+      ref: "users",
     },
     following: {
       type: mongoose.Schema.ObjectId,
-      ref: "User",
+      ref: "users",
     },
   },
   {

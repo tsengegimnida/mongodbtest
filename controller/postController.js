@@ -1,3 +1,5 @@
+const Post = require("../models/Post");
+
 const fileUpload = async (req, res) => {
   let sampleFile;
   let uploadPath;
@@ -20,4 +22,10 @@ const fileUpload = async (req, res) => {
     });
   });
 };
-module.exports = fileUpload;
+const createPost = async (req, res) => {
+  const { description } = req.body;
+  const userId = res.locals.userId;
+  const post = await Post.create({ description, userId });
+  res.send(post);
+};
+module.exports = { fileUpload, createPost };

@@ -8,7 +8,7 @@ const checkAuthorization = (req, res, next) => {
     process.env.JWT_SECRET,
     function (err, decoded) {
       console.log(decoded);
-      res.locals.id = decoded._id;
+      res.locals.userId = decoded._id;
       console.log(err);
       if (err) return false;
       else return true;
