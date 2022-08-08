@@ -11,6 +11,6 @@ const postRouter = express.Router();
 
 postRouter.post("/upload", fileUpload);
 postRouter.post("/createPost", checkAuthorization, createPost);
-postRouter.get("/timeline", getTimeline);
+postRouter.get("/timeline", checkAuthorization, getTimeline);
 
 module.exports = postRouter;

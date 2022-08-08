@@ -37,8 +37,8 @@ const createPost = async (req, res) => {
   followers.forEach(async (user) => {
     console.log(user);
     Timeline.create({
-      follower: userId,
-      following: user._id,
+      follower: user._id,
+      following: userId,
       post: post._id,
     });
   });
