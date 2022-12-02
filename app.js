@@ -13,21 +13,12 @@ const app = express();
 app.use(fileUpload());
 app.use("/uploads/", express.static(path.join(__dirname, "uploads")));
 
-const port = 3000;
 const MONGODB_URL = process.env.MONGODB_URL;
 
-mongoose.connect(MONGODB_URL);
-
-const connection = mongoose.connection;
-
-connection.once("open", () => {
-  console.log("Connected");
-});
-
 app.use(express.json());
-// app.get("/", (req, res) => {
-//   res.send("Hello World!");
-// });
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 app.use(userRouter);
 app.use(postRouter);
@@ -74,6 +65,4 @@ app.post("/profile", (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+module.exports = app;
